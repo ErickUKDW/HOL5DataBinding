@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace HOL5DataBinding.Models
 {
-    public class Person : INotifyPropertyChanged
+    public class Person : INotifyPropertyChanged,IDataErrorInfo
     {
         private string nameValue;
+        
+        [Required(ErrorMessage = "Nama harus diisi")]
         public string Name
         {
             get { return nameValue; }
@@ -24,6 +24,8 @@ namespace HOL5DataBinding.Models
         }
 
         private double ageValue;
+        [Required(ErrorMessage = "Umur harus diisi")]
+        [Range(30,60)]
         public double Age
         {
             get { return ageValue; }
@@ -33,6 +35,33 @@ namespace HOL5DataBinding.Models
                     ageValue = value;
                     OnPropertyChanged("Age");
                 }
+            }
+        }
+
+        public string Error
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                var validationResults = new List<ValidationResult>();
+
+                if (Validator.TryValidateProperty(
+                        GetType().GetProperty(columnName).GetValue(this)
+                        , new ValidationContext(this)
+                        {
+                            MemberName = columnName
+                        }
+                        , validationResults))
+                    return null;
+
+                return validationResults.First().ErrorMessage;
             }
         }
 

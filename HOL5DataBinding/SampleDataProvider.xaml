@@ -8,6 +8,7 @@
         xmlns:m="clr-namespace:HOL5DataBinding.Models"
         mc:Ignorable="d"
         Title="SampleDataProvider" Height="300" Width="300">
+
     <Window.Resources>
         <ObjectDataProvider x:Key="src" ObjectType="{x:Type vm:PeopleSource}" />
         <!--<CollectionViewSource x:Key="mySource" Source="{Binding Source={StaticResource src},Path=People}">
@@ -15,8 +16,35 @@
                
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>-->
+        <Style TargetType="TextBox">
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Border BorderThickness="2" BorderBrush="DarkRed">
+                                <StackPanel>
+                                    <AdornedElementPlaceholder
+                                x:Name="errorControl" />
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="{Binding AdornedElement.ToolTip
+                        , ElementName=errorControl}" Foreground="Red" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="BorderBrush" Value="Red" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="ToolTip"
+                Value="{Binding RelativeSource={RelativeSource Self}
+                    , Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
-    <Grid DataContext="{StaticResource src}">
+    <Grid DataContext="{DynamicResource src}">
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="Auto"/>
@@ -36,8 +64,8 @@
                             </Grid.ColumnDefinitions>
                             <Label Name="nameLabel" Content="Name:" Target="{Binding ElementName=txtName}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                             <Label Name="ageLabel" HorizontalAlignment="Right" Content="Age :" Target="{Binding ElementName=txtAge}" VerticalAlignment="Center" Grid.Row="1" />
-                            <TextBox x:Name="txtName" Text="{Binding Name,Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left" Height="22"  VerticalAlignment="Center" Width="120" Margin="0,2"/>
-                            <TextBox x:Name="txtAge" Text="{Binding Age,Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Center" Width="120" Grid.Row="1" />
+                            <TextBox x:Name="txtName" Text="{Binding Name,Mode=TwoWay,ValidatesOnDataErrors=True}" Grid.Column="1" HorizontalAlignment="Left" Height="22"  VerticalAlignment="Center" Width="120" />
+                            <TextBox x:Name="txtAge" Text="{Binding Age,Mode=TwoWay,ValidatesOnDataErrors=True}" Grid.Column="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Center" Width="120" Grid.Row="1" />
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
