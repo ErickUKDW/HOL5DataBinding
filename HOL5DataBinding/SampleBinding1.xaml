@@ -1,0 +1,91 @@
+﻿<Window x:Class="HOL5DataBinding.SampleBinding1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HOL5DataBinding.Models"
+        xmlns:cnv="clr-namespace:HOL5DataBinding"
+        mc:Ignorable="d"
+        Title="SampleBinding1" Height="300" Width="300">
+    <Window.Resources>
+        <cnv:AgeToColorConverter x:Key="myConverter" />
+        <!--<DataTemplate DataType="{x:Type local:Person}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30*"/>
+                    <RowDefinition Height="30*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80*"/>
+                    <ColumnDefinition Width="200*"/>
+                </Grid.ColumnDefinitions>
+                <Label Name="nameLabel" Content="Name:" Target="{Binding ElementName=txtName}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                <Label Name="ageLabel" HorizontalAlignment="Right" Content="Age :" Target="{Binding ElementName=txtAge}" VerticalAlignment="Center" Grid.Row="1" />
+                <TextBox x:Name="txtName" Text="{Binding Name,Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left" Height="22"  VerticalAlignment="Center" Width="120" Margin="0,2"/>
+                <TextBox x:Name="txtAge" Text="{Binding Age,Mode=TwoWay}" Foreground="{Binding Path=Age,Converter={StaticResource myConverter}}" Grid.Column="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Center" Width="120" Grid.Row="1" />
+            </Grid>
+
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Age}" Value="21">
+                    <Setter TargetName="ageLabel" Property="Background" Value="Red"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>-->
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <!--<RowDefinition Height="*" />-->
+        </Grid.RowDefinitions>
+
+        <ListBox Name="lstBaru" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30*"/>
+                            <RowDefinition Height="30*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80*"/>
+                            <ColumnDefinition Width="200*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Name="nameLabel" Content="Name:" Target="{Binding ElementName=txtName}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                        <Label Name="ageLabel" HorizontalAlignment="Right" Content="Age :" Target="{Binding ElementName=txtAge}" VerticalAlignment="Center" Grid.Row="1" />
+                        <TextBox x:Name="txtName" Text="{Binding Name,Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left" Height="22"  VerticalAlignment="Center" Width="120" Margin="0,2"/>
+                        <TextBox x:Name="txtAge" Text="{Binding Age,Mode=TwoWay}" Foreground="{Binding Path=Age,Converter={StaticResource myConverter}}" Grid.Column="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Center" Width="120" Grid.Row="1" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+            <Button x:Name="btnShow" Content="_Show" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Click="btnShow_Click"/>
+            <Button x:Name="btnAge" Content="_Add Age" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="75" Click="btnAge_Click"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="{Binding Name}" />
+            <TextBox Text="{Binding Age}" />
+        </StackPanel>
+        <!--<StackPanel Grid.Row="2">
+            
+            <ListBox Name="lstBaru" ItemsSource="{Binding}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock Text="{Binding Age}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>-->
+    </Grid>
+    
+
+</Window>
